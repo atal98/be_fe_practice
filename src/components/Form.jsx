@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "../api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import "../styles/Form.css";
+import { LoadingIndicator } from "./LoadingIndicator";
 
 const Form = ({ route, method }) => {
   const [username, setUsername] = useState("");
@@ -36,29 +37,46 @@ const Form = ({ route, method }) => {
     }
   };
 
+  const handleRedirect = () => {
+    window.location.href = "/register";
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="form-container">
-      <h1>{name}</h1>
-      <input
-        className="form-input"
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-      />
+    <div>
+      {name === "Login" && (
+        <div className="nav">
+          <button
+            className="register-button"
+            type="submit"
+            onClick={handleRedirect}
+          >
+            Register
+          </button>
+        </div>
+      )}
+      <form onSubmit={handleSubmit} className="form-container">
+        <h1>{name}</h1>
+        <input
+          className="form-input"
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+        />
 
-      <input
-        className="form-input"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-
-      <button className="form-button" type="submit">
-        {name}
-      </button>
-    </form>
+        <input
+          className="form-input"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+        />
+        {loading && <LoadingIndicator />}
+        <button className="form-button" type="submit">
+          {name}
+        </button>
+      </form>
+    </div>
   );
 };
 

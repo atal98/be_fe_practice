@@ -30,7 +30,6 @@ function App() {
           }
         />
         <Route path="/login" element={<Login />} />
-        <Route path="/logout" element={<Login />} />
         <Route path="/register" element={<RegistorandLogout />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
