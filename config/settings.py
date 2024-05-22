@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'api',
 ]
 
@@ -86,14 +91,25 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'djrdb',
+#         'USER': 'postgres',
+#         'PASSWORD': 'admin123',
+#         'HOST': 'localhost',   # Or the IP address where your PostgreSQL server is running
+#         'PORT': '5432',        # Default PostgreSQL port
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'djrdb',
-        'USER': 'postgres',
-        'PASSWORD': 'admin123',
-        'HOST': 'localhost',   # Or the IP address where your PostgreSQL server is running
-        'PORT': '5432',        # Default PostgreSQL port
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PWD"),
+        'HOST': os.getenv("DB_HOST"),   # Or the IP address where your PostgreSQL server is running
+        'PORT': os.getenv("DB_PORT"),        # Default PostgreSQL port
     }
 }
 
@@ -154,5 +170,16 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=360),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    # 'ROTATE_REFRESH_TOKENS': False,
+    # 'BLACKLIST_AFTER_ROTATION': True,
+    # 'ALGORITHM': 'HS256',
+    # 'SIGNING_KEY': SECRET_KEY,
+    # 'VERIFYING_KEY': None,
+    # 'AUTH_HEADER_TYPES': ('Bearer',),
+    # 'USER_ID_FIELD': 'id',
+    # 'USER_ID_CLAIM': 'user_id',
+    # 'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    # 'TOKEN_TYPE_CLAIM': 'token_type',
+    # 'JTI_CLAIM': 'jti',
 
 }
